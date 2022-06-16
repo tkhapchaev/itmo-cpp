@@ -3,7 +3,7 @@
 
 #pragma once
 
-template < typename T >
+template <typename T>
     class Circular_buffer {
     private:
         T * data;
@@ -199,26 +199,25 @@ template < typename T >
         }
 
         void print_orderly() {
-                int i = head, j = -1, k = 0, counter = 0;
-                if (head > tail) {
-                    counter = tail + (capacity - head);
-                } else if (head < tail) {
-                    counter = tail - head;
-                } else if (head == tail) counter = 0;
+            int i = head, j = -1, k = 0, counter = 0;
+            if (head > tail) {
+                counter = tail + (capacity - head);
+            } else if (head < tail) {
+                counter = tail - head;
+            } else if (head == tail) counter = 0;
 
-                while (k < counter) {
-                    if (i >= capacity) {
-                        ++j;
-                        std::cout << * (data + j) << " ";
-                    } else std::cout << * (data + i) << " ";
-                    ++i;
-                    ++k;
-                }
-
-                std::cout << std::endl;
+            while (k < counter) {
+                if (i >= capacity) {
+                    ++j;
+                    std::cout << * (data + j) << " ";
+                } else std::cout << * (data + i) << " ";
+                
+                ++i;
+                ++k;
             }
 
-            ~Circular_buffer() {
-                delete[] data;
-            };
+            std::cout << std::endl;
+        }
+
+        ~Circular_buffer() { delete[] data; };
     };
