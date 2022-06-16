@@ -3,20 +3,16 @@
 #include <math.h>
 
 class Point {
-    private:
-        double X;
+private:
+    double X;
     double Y;
 
-    public:
-        Point() {
-            X = 0;
-            Y = 0;
-        }
+public:
+    Point() { X = 0; Y = 0; }
 
-        ~Point() =
-        default;
+    ~Point() = default;
 
-    Point(const Point & toCopy) {
+    Point(const Point &toCopy) {
         this -> X = toCopy.X;
         this -> Y = toCopy.Y;
     }
@@ -26,80 +22,67 @@ class Point {
         Y = YCoordinateInput;
     }
 
-    Point & operator = (const Point & other) =
-        default;
+    Point &operator=(const Point &other) = default;
 
-    friend std::ostream & operator << (std::ostream & stream,
-        const Point & pointOutput);
+    friend std::ostream &operator<<(std::ostream &stream, const Point &pointOutput);
 
-    int16_t getX() const {
-        return X;
-    }
+    int16_t getX() const { return X; }
 
-    int16_t getY() const {
-        return Y;
-    }
+    int16_t getY() const { return Y; }
 };
 
-std::ostream & operator << (std::ostream & stream,
-    const Point & pointOutput) {
+std::ostream &operator<<(std::ostream &stream, const Point &pointOutput) {
     stream << "(" << pointOutput.X << "; " << pointOutput.Y << ")" << std::endl;
     return stream;
 }
 
 typedef struct Line {
-    const Point & initialPoint;
-    const Point & end;
-}
-TLine;
+    const Point &initialPoint;
+    const Point &end;
+} TLine;
 
-double getDistance(const Point & point1,
-    const Point & point2) {
+double getDistance(const Point &point1, const Point &point2) {
     int16_t XDifference, YDifference;
     XDifference = point2.getX() - point1.getX();
     YDifference = point2.getY() - point1.getY();
     return sqrt(pow(XDifference, 2) + pow(YDifference, 2));
 }
 
-bool isParallel(TLine & line1, TLine & line2) {
+bool isParallel(TLine &line1, TLine &line2) {
     int16_t X1, X2, Y1, Y2;
     double angularCoefficient1, angularCoefficient2;
     X1 = line1.initialPoint.getX();
     X2 = line1.end.getX();
     Y1 = line1.initialPoint.getY();
     Y2 = line1.end.getY();
-    angularCoefficient1 = (double)((double)(Y2 - Y1) / (double)(X2 - X1));
+    angularCoefficient1 = (double) ((double) (Y2 - Y1) / (double) (X2 - X1));
     X1 = line2.initialPoint.getX();
     X2 = line2.end.getX();
     Y1 = line2.initialPoint.getY();
     Y2 = line2.end.getY();
-    angularCoefficient2 = (double)((double)(Y2 - Y1) / (double)(X2 - X1));
+    angularCoefficient2 = (double) ((double) (Y2 - Y1) / (double) (X2 - X1));
     if (angularCoefficient1 == angularCoefficient2) return true;
     else return false;
 }
 
 class PolygonalChain {
-    protected:
-        int16_t numOfVertices;
-    std::vector < Point > vertices;
+protected:
+    int16_t numOfVertices;
+    std::vector<Point> vertices;
 
-    public:
-        PolygonalChain() {
-            numOfVertices = 0;
-        }
+public:
+    PolygonalChain() { numOfVertices = 0; }
 
-        ~PolygonalChain() =
-        default;
+    ~PolygonalChain() = default;
 
-    PolygonalChain(const PolygonalChain & toCopy) {
+    PolygonalChain(const PolygonalChain &toCopy) {
         this -> numOfVertices = toCopy.numOfVertices;
         this -> vertices = toCopy.vertices;
     }
 
-    PolygonalChain & operator = (const PolygonalChain & other) =
-        default;
+    PolygonalChain &operator=(const PolygonalChain &other) = default;
 
-    virtual void setValues(int16_t amount, std::vector < Point > pointsInput) {
+    virtual void setValues(int16_t amount, std::vector<Point> pointsInput) {
         numOfVertices = amount;
         vertices = pointsInput;
     }
@@ -118,22 +101,19 @@ class PolygonalChain {
 };
 
 class ClosedPolygonalChain: public PolygonalChain {
-    public: ClosedPolygonalChain() {
-            numOfVertices = 0;
-        }
+public:
+    ClosedPolygonalChain() { numOfVertices = 0; }
 
-        ~ClosedPolygonalChain() =
-        default;
+    ~ClosedPolygonalChain() = default;
 
-    ClosedPolygonalChain(const ClosedPolygonalChain & toCopy): PolygonalChain(toCopy) {
+    ClosedPolygonalChain(const ClosedPolygonalChain &toCopy): PolygonalChain(toCopy) {
         this -> numOfVertices = toCopy.numOfVertices;
         this -> vertices = toCopy.vertices;
     }
 
-    ClosedPolygonalChain & operator = (const ClosedPolygonalChain & other) =
-    default;
+    ClosedPolygonalChain &operator=(const ClosedPolygonalChain &other) = default;
 
-    void setValues(int16_t amount, std::vector < Point > pointsInput) override {
+    void setValues(int16_t amount, std::vector<Point> pointsInput) override {
         numOfVertices = amount;
         vertices = pointsInput;
         if (pointsInput[0].getX() != pointsInput[numOfVertices - 1].getX() || pointsInput[0].getY() != pointsInput[numOfVertices - 1].getY()) {
@@ -144,20 +124,17 @@ class ClosedPolygonalChain: public PolygonalChain {
 };
 
 class Polygon: public ClosedPolygonalChain {
-    public: Polygon() {
-            numOfVertices = 0;
-        }
+public:
+    Polygon() { numOfVertices = 0; }
 
-        ~Polygon() =
-        default;
+    ~Polygon() = default;
 
-    Polygon(const Polygon & toCopy): ClosedPolygonalChain(toCopy) {
+    Polygon(const Polygon &toCopy): ClosedPolygonalChain(toCopy) {
         this -> numOfVertices = toCopy.numOfVertices;
         this -> vertices = toCopy.vertices;
     }
 
-    Polygon & operator = (const Polygon & other) =
-    default;
+    Polygon &operator=(const Polygon &other) = default;
 
     virtual double getArea() const {
         double result = 0;
@@ -174,7 +151,8 @@ class Polygon: public ClosedPolygonalChain {
 };
 
 class RegularPolygon: public Polygon {
-    private: void isRegular() {
+private:
+    void isRegular() {
         double currentSideLength, correctSideLength;
         correctSideLength = getDistance(vertices[0], vertices[1]);
         for (int16_t i = 0; i < numOfVertices; i++) {
@@ -188,23 +166,20 @@ class RegularPolygon: public Polygon {
         }
     }
 
-    public: RegularPolygon() {
-            numOfVertices = 0;
-        }
+public:
+    RegularPolygon() { numOfVertices = 0; }
 
-        ~RegularPolygon() =
-        default;
+    ~RegularPolygon() = default;
 
-    RegularPolygon(const RegularPolygon & toCopy): Polygon(toCopy) {
+    RegularPolygon(const RegularPolygon &toCopy): Polygon(toCopy) {
         this -> numOfVertices = toCopy.numOfVertices;
         this -> vertices = toCopy.vertices;
         isRegular();
     }
 
-    RegularPolygon & operator = (const RegularPolygon & other) =
-    default;
+    RegularPolygon &operator=(const RegularPolygon &other) = default;
 
-    void setValues(int16_t amount, std::vector < Point > pointsInput) override {
+    void setValues(int16_t amount, std::vector<Point> pointsInput) override {
         numOfVertices = amount;
         vertices = pointsInput;
         if (pointsInput[0].getX() != pointsInput[numOfVertices - 1].getX() || pointsInput[0].getY() != pointsInput[numOfVertices - 1].getY()) {
@@ -217,7 +192,8 @@ class RegularPolygon: public Polygon {
 };
 
 class Triangle: public Polygon {
-    private: void isCorrect() {
+private:
+    void isCorrect() {
         double length1, length2, length3;
         length1 = getDistance(vertices[0], vertices[1]);
         length2 = getDistance(vertices[1], vertices[2]);
@@ -228,23 +204,20 @@ class Triangle: public Polygon {
         }
     }
 
-    public: Triangle() {
-            numOfVertices = 0;
-        }
+public:
+    Triangle() { numOfVertices = 0; }
 
-        ~Triangle() =
-        default;
+    ~Triangle() = default;
 
-    Triangle(const Triangle & toCopy): Polygon(toCopy) {
+    Triangle(const Triangle &toCopy): Polygon(toCopy) {
         this -> numOfVertices = toCopy.numOfVertices;
         this -> vertices = toCopy.vertices;
         isCorrect();
     }
 
-    Triangle & operator = (const Triangle & other) =
-    default;
+    Triangle &operator=(const Triangle &other) = default;
 
-    void setValues(std::vector < Point > pointsInput) {
+    void setValues(std::vector<Point> pointsInput) {
         numOfVertices = 3;
         vertices = pointsInput;
         if (pointsInput[0].getX() != pointsInput[numOfVertices - 1].getX() || pointsInput[0].getY() != pointsInput[numOfVertices - 1].getY()) {
@@ -257,44 +230,30 @@ class Triangle: public Polygon {
 };
 
 class Trapezoid: public Polygon {
-    private: void isCorrect() {
-        TLine base1 = {
-            vertices[0],
-            vertices[1]
-        }, base2 = {
-            vertices[2],
-            vertices[3]
-        };
-        TLine side1 = {
-            vertices[3],
-            vertices[0]
-        }, side2 = {
-            vertices[1],
-            vertices[2]
-        };
+private:
+    void isCorrect() {
+        TLine base1 = {vertices[0], vertices[1]}, base2 = {vertices[2], vertices[3]};
+        TLine side1 = {vertices[3], vertices[0]}, side2 = {vertices[1], vertices[2]};
         if (!(isParallel(base1, base2)) || isParallel(side1, side2) || vertices.size() > 5) {
             std::cout << "Error :: the trapezoid is not correct." << std::endl;
             exit(0);
         }
     }
 
-    public: Trapezoid() {
-            numOfVertices = 0;
-        }
+public:
+    Trapezoid() { numOfVertices = 0; }
 
-        ~Trapezoid() =
-        default;
+    ~Trapezoid() = default;
 
-    Trapezoid(const Trapezoid & toCopy): Polygon(toCopy) {
+    Trapezoid(const Trapezoid &toCopy): Polygon(toCopy) {
         this -> numOfVertices = toCopy.numOfVertices;
         this -> vertices = toCopy.vertices;
         isCorrect();
     }
 
-    Trapezoid & operator = (const Trapezoid & other) =
-    default;
+    Trapezoid &operator=(const Trapezoid &other) = default;
 
-    void setValues(std::vector < Point > pointsInput) {
+    void setValues(std::vector<Point> pointsInput) {
         numOfVertices = 4;
         vertices = pointsInput;
         if (pointsInput[0].getX() != pointsInput[numOfVertices - 1].getX() ||
@@ -308,75 +267,62 @@ class Trapezoid: public Polygon {
 };
 
 class Polynomial {
-    private:
-        std::vector < double > coefficients;
+private:
+    std::vector<double> coefficients;
 
-    public:
-        Polynomial() {
-            coefficients.resize(1);
-            coefficients = {
-                0
-            };
-        }
+public:
+    Polynomial() { coefficients.resize(1); coefficients = {0}; }
 
-        ~Polynomial() =
-        default;
+    ~Polynomial() = default;
 
-    Polynomial(const Polynomial & toCopy) {
+    Polynomial(const Polynomial &toCopy) {
         coefficients = toCopy.coefficients;
     }
 
-    Polynomial & operator = (const Polynomial & other) =
-        default;
+    Polynomial &operator=(const Polynomial &other) = default;
 
-    void setValues(std::vector < double > inputCoefficients) {
+    void setValues(std::vector<double> inputCoefficients) {
         coefficients = inputCoefficients;
     }
 
-    friend bool operator == (const Polynomial & polynomial1,
-        const Polynomial & polynomial2);
+    friend bool operator==(const Polynomial &polynomial1, const Polynomial &polynomial2);
 
-    friend bool operator != (const Polynomial & polynomial1,
-        const Polynomial & polynomial2);
+    friend bool operator!=(const Polynomial &polynomial1, const Polynomial &polynomial2);
 
-    friend Polynomial operator + (const Polynomial & polynomial1,
-        const Polynomial & polynomial2);
+    friend Polynomial operator+(const Polynomial &polynomial1, const Polynomial &polynomial2);
 
-    friend Polynomial operator - (const Polynomial & polynomial1,
-        const Polynomial & polynomial2);
+    friend Polynomial operator-(const Polynomial &polynomial1, const Polynomial &polynomial2);
 
-    friend Polynomial operator / (const Polynomial & polynomial1, double & polynomial2);
+    friend Polynomial operator/(const Polynomial &polynomial1, double &polynomial2);
 
-    friend Polynomial operator * (const Polynomial & polynomial1,
-        const Polynomial & polynomial2);
+    friend Polynomial operator*(const Polynomial &polynomial1, const Polynomial &polynomial2);
 
-    friend std::ostream & operator << (std::ostream & stream,
-        const Polynomial & polynomialOutput);
+    friend std::ostream &operator<<(std::ostream &stream, const Polynomial &polynomialOutput);
 
-    friend std::istream & operator >> (std::istream & stream, Polynomial & polynomialInput);
+    friend std::istream &operator>>(std::istream &stream, Polynomial &polynomialInput);
 
-    Polynomial operator += (const Polynomial & other) {
-        * this = * this + other;
+    Polynomial operator+=(const Polynomial &other) {
+        *this = *this + other;
         return *this;
     }
 
-    Polynomial operator -= (const Polynomial & other) {
-        * this = * this - other;
+    Polynomial operator-=(const Polynomial &other) {
+        *this = *this - other;
         return *this;
     }
 
-    Polynomial operator *= (const Polynomial & other) {
-        * this = * this * other;
+    Polynomial operator*=(const Polynomial &other) {
+        *this = *this * other;
         return *this;
     }
 
-    Polynomial operator /= (double valueInput) {
-        * this = * this / valueInput;
+    Polynomial operator/=(double valueInput) {
+        *this = *this / valueInput;
         return *this;
     }
 
-    Polynomial operator - () const {
-        Polynomial result = * this;
+    Polynomial operator-() const {
+        Polynomial result = *this;
         for (int16_t i = 0; i < coefficients.size(); i++) {
             result.coefficients[i] = -coefficients[i];
         }
@@ -388,24 +334,23 @@ class Polynomial {
         if (degreeIndex > coefficients.size() || degreeIndex < 0) {
             std::cout << "Error :: invalid polynomial index." << std::endl;
             exit(0);
-        } else return coefficients[degreeIndex];
+        }
+
+        else return coefficients[degreeIndex];
     }
 };
 
-bool operator == (const Polynomial & polynomial1,
-    const Polynomial & polynomial2) {
+bool operator==(const Polynomial &polynomial1, const Polynomial &polynomial2) {
     if (polynomial1.coefficients.size() == polynomial2.coefficients.size() && polynomial1.coefficients == polynomial2.coefficients) return true;
     else return false;
 }
 
-bool operator != (const Polynomial & polynomial1,
-    const Polynomial & polynomial2) {
+bool operator!=(const Polynomial &polynomial1, const Polynomial &polynomial2) {
     if (polynomial1.coefficients.size() == polynomial2.coefficients.size() && polynomial1.coefficients == polynomial2.coefficients) return false;
     else return true;
 }
 
-Polynomial operator + (const Polynomial & polynomial1,
-    const Polynomial & polynomial2) {
+Polynomial operator+(const Polynomial &polynomial1, const Polynomial &polynomial2) {
     Polynomial result = polynomial1;
     int16_t polynomialDegree1 = polynomial1.coefficients.size();
     int16_t polynomialDegree2 = polynomial2.coefficients.size();
@@ -414,22 +359,27 @@ Polynomial operator + (const Polynomial & polynomial1,
         for (int16_t i = 0; i < result.coefficients.size(); i++) {
             if (i >= polynomialDegree2) {
                 result.coefficients[i] = polynomial1.coefficients[i];
-            } else result.coefficients[i] = polynomial1.coefficients[i] + polynomial2.coefficients[i];
+            }
+
+            else result.coefficients[i] = polynomial1.coefficients[i] + polynomial2.coefficients[i];
         }
-    } else {
+    }
+
+    else {
         result.coefficients.resize(polynomialDegree2);
         for (int16_t i = 0; i < result.coefficients.size(); i++) {
             if (i >= polynomialDegree1) {
                 result.coefficients[i] = polynomial2.coefficients[i];
-            } else result.coefficients[i] = polynomial1.coefficients[i] + polynomial2.coefficients[i];
+            }
+
+            else result.coefficients[i] = polynomial1.coefficients[i] + polynomial2.coefficients[i];
         }
     }
 
     return result;
 }
 
-Polynomial operator - (const Polynomial & polynomial1,
-    const Polynomial & polynomial2) {
+Polynomial operator-(const Polynomial &polynomial1, const Polynomial &polynomial2) {
     Polynomial result = polynomial1;
     int16_t polynomialDegree1 = polynomial1.coefficients.size();
     int16_t polynomialDegree2 = polynomial2.coefficients.size();
@@ -438,22 +388,27 @@ Polynomial operator - (const Polynomial & polynomial1,
         for (int16_t i = 0; i < result.coefficients.size(); i++) {
             if (i >= polynomialDegree2) {
                 result.coefficients[i] = polynomial1.coefficients[i];
-            } else result.coefficients[i] = polynomial1.coefficients[i] - polynomial2.coefficients[i];
+            }
+
+            else result.coefficients[i] = polynomial1.coefficients[i] - polynomial2.coefficients[i];
         }
-    } else {
+    }
+
+    else {
         result.coefficients.resize(polynomialDegree2);
         for (int16_t i = 0; i < result.coefficients.size(); i++) {
             if (i >= polynomialDegree1) {
                 result.coefficients[i] = polynomial2.coefficients[i];
-            } else result.coefficients[i] = polynomial1.coefficients[i] - polynomial2.coefficients[i];
+            }
+
+            else result.coefficients[i] = polynomial1.coefficients[i] - polynomial2.coefficients[i];
         }
     }
 
     return result;
 }
 
-Polynomial operator * (const Polynomial & polynomial1,
-    const Polynomial & polynomial2) {
+Polynomial operator*(const Polynomial &polynomial1, const Polynomial &polynomial2) {
     Polynomial result;
     result.coefficients.resize(polynomial1.coefficients.size() + polynomial2.coefficients.size() - 1);
     for (int16_t i = 0; i < polynomial1.coefficients.size(); i++) {
@@ -465,12 +420,14 @@ Polynomial operator * (const Polynomial & polynomial1,
     return result;
 }
 
-Polynomial operator / (const Polynomial & polynomialInput, double & valueInput) {
+Polynomial operator/(const Polynomial &polynomialInput, double &valueInput) {
     Polynomial result = polynomialInput;
     if (valueInput == 0) {
         std::cout << "Error :: invalid divisor." << std::endl;
         exit(0);
-    } else {
+    }
+
+    else {
         for (int16_t i = 0; i < result.coefficients.size(); i++) {
             result.coefficients[i] = polynomialInput.coefficients[i] / valueInput;
         }
@@ -479,17 +436,20 @@ Polynomial operator / (const Polynomial & polynomialInput, double & valueInput) 
     }
 }
 
-std::ostream & operator << (std::ostream & stream,
-    const Polynomial & polynomialOutput) {
+std::ostream &operator<<(std::ostream &stream, const Polynomial &polynomialOutput) {
     for (int16_t i = polynomialOutput.coefficients.size() - 1; i >= 0; i--) {
         if (i == 0 && polynomialOutput.coefficients[i] > 0) stream << " + " << polynomialOutput.coefficients[i];
         if (i == 0 && polynomialOutput.coefficients[i] < 0) stream << " - " << std::abs(polynomialOutput.coefficients[i]);
         if (i != 0) {
             if (i == polynomialOutput.coefficients.size() - 1 && polynomialOutput.coefficients[i] != 0) {
                 stream << polynomialOutput.coefficients[i] << "x^" << i;
-            } else if (polynomialOutput.coefficients[i] > 0) {
+            }
+
+            else if (polynomialOutput.coefficients[i] > 0) {
                 stream << " + " << polynomialOutput.coefficients[i] << "x^" << i;
-            } else if (polynomialOutput.coefficients[i] < 0) {
+            }
+
+            else if (polynomialOutput.coefficients[i] < 0) {
                 stream << " - " << std::abs(polynomialOutput.coefficients[i]) << "x^" << i;
             }
         }
@@ -498,14 +458,12 @@ std::ostream & operator << (std::ostream & stream,
     return stream;
 }
 
-std::istream & operator >> (std::istream & stream, Polynomial & polynomialInput) {
-    int16_t polynomialDegree;
-    stream >> polynomialDegree;
+std::istream &operator>>(std::istream &stream, Polynomial &polynomialInput) {
+    int16_t polynomialDegree; stream >> polynomialDegree;
     polynomialDegree = polynomialDegree + 1;
     polynomialInput.coefficients.resize(polynomialDegree);
     for (int16_t i = 0; i < polynomialDegree; i++) {
-        double coefficientInput;
-        stream >> coefficientInput;
+        double coefficientInput; stream >> coefficientInput;
         polynomialInput.coefficients[i] = coefficientInput;
     }
 
