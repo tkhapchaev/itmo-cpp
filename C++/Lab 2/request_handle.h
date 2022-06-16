@@ -7,8 +7,8 @@
 #pragma once
 
 class Request_handle {
-    private:
-        std::string buffer;
+private:
+    std::string buffer;
     nlohmann::json response;
     static size_t write_callback(void * data, size_t current_size, size_t memory_amount, void * buffer_str) {
         size_t number_of_copies = current_size * memory_amount;
@@ -37,9 +37,8 @@ class Request_handle {
         response = json::parse(buffer);
     }
 
-    public:
-        Request_handle() =
-        default;
+public:
+    Request_handle() = default;
 
     Request_handle(const Request_handle & other) {
         buffer = other.buffer;
@@ -86,6 +85,5 @@ class Request_handle {
             }
         }
 
-        ~Request_handle() =
-        default;
+        ~Request_handle() = default;
 };
