@@ -122,14 +122,14 @@ public:
     }
 
     static bool Identical(Cube_block * block_1, Cube_block * block_2) {
-            if (block_1 -> X0 != block_2 -> X0) return false;
-            if (block_1 -> X1 != block_2 -> X1) return false;
-            if (block_1 -> Y0 != block_2 -> Y0) return false;
-            if (block_1 -> Y1 != block_2 -> Y1) return false;
-            if (block_1 -> Z0 != block_2 -> Z0) return false;
-            if (block_1 -> Z1 != block_2 -> Z1) return false;
-            return true;
-        }
+        if (block_1 -> X0 != block_2 -> X0) return false;
+        if (block_1 -> X1 != block_2 -> X1) return false;
+        if (block_1 -> Y0 != block_2 -> Y0) return false;
+        if (block_1 -> Y1 != block_2 -> Y1) return false;
+        if (block_1 -> Z0 != block_2 -> Z0) return false;
+        if (block_1 -> Z1 != block_2 -> Z1) return false;
+        return true;
+    }
 
     ~Cube_block() = default;
 };
