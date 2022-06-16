@@ -565,21 +565,21 @@ public:
     }
 
     int distance(Cube * other) {
-            int result = 0;
-            for (int X = 0; X < 3; X++)
-                for (int Y = 0; Y < 3; Y++)
-                    for (int Z = 0; Z < 3; Z++) {
-                        int are_equal = 1;
-                        if ((X == 1) || (Y == 1) || (Z == 1)) {
-                            are_equal *= 2;
-                        }
-
-                        if (!Cube_block::Identical(data[X][Y][Z], other -> data[X][Y][Z]))
-                            result += are_equal;
+        int result = 0;
+        for (int X = 0; X < 3; X++)
+            for (int Y = 0; Y < 3; Y++)
+                for (int Z = 0; Z < 3; Z++) {
+                    int are_equal = 1;
+                    if ((X == 1) || (Y == 1) || (Z == 1)) {
+                        are_equal *= 2;
                     }
 
-            return result;
-        }
+                    if (!Cube_block::Identical(data[X][Y][Z], other -> data[X][Y][Z]))
+                        result += are_equal;
+                }
+
+        return result;
+    }
 
     ~Cube() {
         deconstruct();
